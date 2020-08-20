@@ -47,6 +47,33 @@ EOF
 chmod +x www.lamda.nju.edu.cn@CH.Pub.ashx/rules.sh
 ```
 
+
+
+## Schedule
+
+Better use with cron.
+I schedule it every hour.
+And here is my crontab:
+
+```crontab
+# m h  dom mon dow   command
+  0 *   *   *   *    /path/to/site-monitor.sh
+```
+
+You can also set it to start automatically when login:
+
+```bash
+cat << EOF > "$HOME/.config/autostart/site-monitor.desktop"
+[Desktop Entry]
+Type=Application
+Exec=bash -c 'sleep 30 && `realpath site-monitor.sh`'
+Name=site-monitor
+Hidden=false
+X-GNOME-Autostart-enabled=true
+Comment=Monitor websites and notify the latest news
+EOF
+```
+
 ## Disclaimer
 
 Since it uses git, histories are saved.
