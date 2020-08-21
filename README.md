@@ -28,8 +28,8 @@ I want to get latest news of [NJU CS](https://cs.nju.edu.cn/).
 ./site-monitor.sh https://cs.nju.edu.cn/1654/list.htm
 ```
 
-Running this cmd will create a directory named `cs.nju.edu.cn@1654@list.htm`.
-The directory name is the site url after replacing `@` with `/`.
+Running this cmd will create a directory named `@cs.nju.edu.cn@1654@list.htm`.
+The directory name is the site url after replacing starting `@` with `https://` and other `@` with `/`.
 
 Then run `./site-monitor.sh` will check all sites in the script directory.
 
@@ -46,8 +46,6 @@ EOF
 
 chmod +x www.lamda.nju.edu.cn@CH.Pub.ashx/rules.sh
 ```
-
-
 
 ## Schedule
 
