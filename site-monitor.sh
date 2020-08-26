@@ -33,7 +33,7 @@ for i in $ARG; do
             if [ -x rules.sh ]; then
                 ./rules.sh
             fi
-            git add .
+            git add . 2> /dev/null
             INFO=`git commit -m "$MSG $j"`
             if [ "$?" -eq 0 ]; then
                 echo "$INFO"
