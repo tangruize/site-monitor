@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR=/run/user/`id -u`
+fi
+
 cd `dirname $0`
 
 if [ "$#" -gt 0 ]; then
@@ -12,17 +16,18 @@ TOTAL=`echo $ARG | tr ' ' '\n' | wc -l`
 COUNT=0
 
 for i in $ARG; do
+    COUNT=$((COUNT+1))
     MSG="update"
     if [[ "$i" = http* ]]; then
-        i=`echo $i | sed -e 's,^http://,,' -e 's,^https://,@,' -e 's,/$,,' -e 's,/,@,g'`
+        i=`sed -e 's,^http://,,' -e 's,^https://,@,' -e 's,/$,,' -e 's,/,@,g' <<< "$i"`
         if mkdir "$i" 2>/dev/null; then
             MSG="create"
         fi
     fi
     if [ -d "$i" ]; then
-        j=`echo "$i" | sed -e 's,^\([^@]\),http://\1,' -e 's,^@,https://,' -e 's,@,/,g'`
-        COUNT=$((COUNT+1))
-        cd "$i" && echo "$COUNT/$TOTAL $j"
+        j=`sed -e 's,^\([^@]\),http://\1,' -e 's,^@,https://,' -e 's,@,/,g' <<< "$i"`
+        cd "$i"
+        echo "$COUNT/$TOTAL $j"
         wget --tries=3 -N "$j" -o wget.log --user-agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3"
         if ! grep -q 304 wget.log; then
             if [ -x rules.sh ]; then
