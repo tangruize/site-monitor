@@ -29,7 +29,7 @@ for i in $ARG; do
         cd "$i"
         echo "$COUNT/$TOTAL $j"
         wget --tries=3 -N "$j" -o wget.log --user-agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3"
-        if ! grep -q 304 wget.log; then
+        if ! grep -q '304 Not Modified\|p.nju.edu.cn' wget.log; then
             if [ -x rules.sh ]; then
                 ./rules.sh
             fi
